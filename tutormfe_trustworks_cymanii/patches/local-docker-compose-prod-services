@@ -1,0 +1,7 @@
+
+# MFE Trustworks CyManII
+mfe-trustworks-cymanii:
+    image: {{ MFE_TRUSTWORKS_CYMANII_DOCKER_IMAGE }}
+    build:
+        context: ../plugins/mfe-trustworks-cymanii/build/mfe/
+    restart: unless-stopped

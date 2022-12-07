@@ -9,11 +9,11 @@ from .__about__ import __version__
 config = {
     "defaults": {
         "VERSION": __version__,
-        "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}overhangio/openedx-mfe-chooseaerospace:{{ MFE_VERSION }}",
-        "HOST": "{{ CHOOSE_AEROSPACE_MFE_HOST }}",
+        "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}overhangio/openedx-mfe-trustworks-cymanii:{{ MFE_VERSION }}",
+        "HOST": "{{ TRUSTWORKS_CYMANII_MFE_HOST }}",
         "COMMON_VERSION": "{{ OPENEDX_COMMON_VERSION }}",
         "CADDY_DOCKER_IMAGE": "{{ DOCKER_IMAGE_CADDY }}",
-        "ACCOUNT_MFE_APP_CHOOSEAEROSPACE": {
+        "ACCOUNT_MFE_APP_TRUSTWORKS_CYMANII": {
             "name": "account",
             "repository": "https://github.com/edx/frontend-app-account",
             "port": 1997,
@@ -24,17 +24,17 @@ config = {
                 },
             },
         },
-        "GRADEBOOK_MFE_APP_CHOOSEAEROSPACE": {
+        "GRADEBOOK_MFE_APP_TRUSTWORKS_CYMANII": {
             "name": "gradebook",
             "repository": "https://github.com/edx/frontend-app-gradebook",
             "port": 1994,
         },
-        "LEARNING_MFE_APP_CHOOSEAEROSPACE": {
+        "LEARNING_MFE_APP_TRUSTWORKS_CYMANII": {
             "name": "learning",
             "repository": "https://github.com/edx/frontend-app-learning",
             "port": 2000,
         },
-        "PROFILE_MFE_APP_CHOOSEAEROSPACE": {
+        "PROFILE_MFE_APP_TRUSTWORKS_CYMANII": {
             "name": "profile",
             "repository": "https://github.com/edx/frontend-app-profile",
             "port": 1995,
@@ -47,16 +47,16 @@ config = {
     },
 }
 
-tutor_hooks.Filters.COMMANDS_INIT.add_item(
-    (
-        "lms",
-        ("mfe-chooseaerospace", "tasks", "lms", "init"),
-    )
-)
+# tutor_hooks.Filters.COMMANDS_INIT.add_item(
+#     (
+#         "lms",
+#         ("mfe-trustworks-cymanii", "tasks", "lms", "init"),
+#     )
+# )
 tutor_hooks.Filters.IMAGES_BUILD.add_item(
     (
-        "mfe-chooseaerospace",
-        ("plugins", "mfe-chooseaerospace", "build", "mfe"),
+        "mfe-trustworks-cymanii",
+        ("plugins", "mfe-trustworks-cymanii", "build", "mfe"),
         "{{ MFE_DOCKER_IMAGE }}",
         (),
     )
@@ -99,25 +99,25 @@ def _add_remote_mfe_image_iff_customized(images, user_config):
     image_tag = user_config["MFE_DOCKER_IMAGE"]
     if not image_tag.startswith("docker.io/overhangio/openedx-mfe:"):
         # Image has been customized. Add to list for pulling/pushing.
-        images.append(("mfe-chooseaerospace", image_tag))
+        images.append(("mfe-trustworks-cymanii", image_tag))
     return images
 
 ####### Boilerplate code
 # Add the "templates" folder as a template root
 tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_item(
-    pkg_resources.resource_filename("tutormfe_chooseaerospace", "templates")
+    pkg_resources.resource_filename("tutormfe_trustworks_cymanii", "templates")
 )
 # Render the "build" and "apps" folders
 tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
     [
-        ("mfe-chooseaerospace/build", "plugins"),
-        ("mfe-chooseaerospace/apps", "plugins"),
+        ("mfe-trustworks-cymanii/build", "plugins"),
+        ("mfe-trustworks-cymanii/apps", "plugins"),
     ],
 )
 # Load patches from files
 for path in glob(
     os.path.join(
-        pkg_resources.resource_filename("tutormfe_chooseaerospace", "patches"),
+        pkg_resources.resource_filename("tutormfe_trustworks_cymanii", "patches"),
         "*",
     )
 ):
